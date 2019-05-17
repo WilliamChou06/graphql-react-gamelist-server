@@ -11,11 +11,16 @@ const {
 
 const games = [
   { name: 'Skyrim', genres: ['Fantasy', 'Action'], id: '1', publisherId: '1' },
-  { name: 'Oblivion', genres: ['Fantasy', 'Action'], id: '2', publisherId: '1' },
+  {
+    name: 'Oblivion',
+    genres: ['Fantasy', 'Action'],
+    id: '2',
+    publisherId: '1'
+  },
   { name: 'Overlord', genres: ['Fantasy', 'RPG'], id: '3', publisherId: '2' },
   { name: 'Dirt 3', genres: ['Racing'], id: '4', publisherId: '2' },
   { name: 'Dirt 4', genres: ['Racing'], id: '5', publisherId: '2' },
-  { name: 'Dirt Rally', genres: ['Racing'], id: '6', publisherId: '2' },
+  { name: 'Dirt Rally', genres: ['Racing'], id: '6', publisherId: '2' }
 ];
 
 const publishers = [
@@ -46,7 +51,7 @@ const PublisherType = new GraphQLObjectType({
     games: {
       type: new GraphQLList(GameType),
       resolve(parent, args) {
-        return _.filter(games, { publisherId: parent.id})
+        return _.filter(games, { publisherId: parent.id });
       }
     }
   })
@@ -68,7 +73,19 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, { id }) {
         return _.find(publishers, { id });
       }
-    }
+    },
+    games: {
+      type: new GraphQLList(GameType),
+      resolve() {
+        return games;
+      }
+    },
+    publishers: {
+      type: new GraphQLList(PublisherType),
+      resolve() {
+        return publishers;
+      }
+    },
   }
 });
 
